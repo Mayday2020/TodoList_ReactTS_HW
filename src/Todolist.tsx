@@ -74,9 +74,7 @@ export function Todolist(props: PropsType) {
                             <Delete />
                         </IconButton>
                     </div>
-                }
-                )
-                }
+                })}
             </div>
             <div>
                 <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
