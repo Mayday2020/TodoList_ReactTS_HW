@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
 import {TaskType, Todolist} from "./Todolist";
 import {AddItemForm} from "./AddItemForm";
@@ -17,7 +17,6 @@ import {
     changeTodolistTitleAC,
     removeTodolistAC,
 } from "./state/todolists-reducer";
-import {addTaskAC, changeTaskStatusAC, changeTaskTitleAC, removeTaskAC} from "./state/tasks-reducer";
 import {useDispatch, useSelector} from "react-redux";
 import {AppRootState} from "./state/store";
 
@@ -31,23 +30,24 @@ export type TasksStateType = {
     [key: string]: TaskType[]
 }
 function AppWithRedux() {
-
+    console.log('AppWithRedux is called')
     const dispatch = useDispatch()
     const todolists = useSelector<AppRootState, TodolistType[]>(state => state.todolists)
 
 
-    function changeFilter(value: FilterValuesType, todolistId: string) {
-        dispatch(changeTodolistFilterAC(todolistId, value));
-    }
-    function removeTodolist(todolistId: string) {
+    const changeFilter = useCallback ((value: FilterValuesType, todolistId: string) => {
+        dispatch(changeTodolistFilterAC(todolistId, value))
+    }, [dispatch])
+    const removeTodolist = useCallback((todolistId: string) => {
         dispatch(removeTodolistAC(todolistId))
-    }
-    function changeTodolistTitle(newTitle: string, id: string){
+    }, [dispatch])
+    const changeTodolistTitle = useCallback((newTitle: string, id: string) => {
         dispatch(changeTodolistTitleAC(id, newTitle));
-    }
-    function addTodolist(title: string){
+    }, [dispatch])
+    const addTodolist = useCallback((title: string) => {
         dispatch(addTodolistAC(title))
-    }
+    }, [dispatch])
+
     return (
         <div className="App">
             <AppBar position="static">
@@ -69,7 +69,7 @@ function AppWithRedux() {
                     {
                         todolists.map((tl) => {
 
-                            return <Grid item>
+                            return <Grid item key={tl.id}>
                                 <Paper style={{padding: "10px"}}>
                                     <Todolist title={tl.title}
                                               id={tl.id}

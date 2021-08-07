@@ -7,14 +7,17 @@ type AddItemFormType = {
     addItem: (title: string) => void
 }
 
-export function AddItemForm(props: AddItemFormType) {
+export const AddItemForm = React.memo((props: AddItemFormType) => {
+    console.log('AddItemForm is called')
     const [newTaskTitle, setNewTaskTitle] = useState<string>('')
     const onNewTitleChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
         setNewTaskTitle(e.currentTarget.value)
     }
     const [error, setError] = useState<string | null>(null)
     const onKeyPressHandler = (e: KeyboardEvent<HTMLInputElement>) => {
-        setError(null)
+        if (error !== null) {
+            setError(null)
+        }
         if (e.charCode === 13) {
             addTask()
         }
@@ -30,14 +33,14 @@ export function AddItemForm(props: AddItemFormType) {
 
     return <div>
         <TextField variant="outlined"
-               value={newTaskTitle}
-               onChange={onNewTitleChangeHandler}
-               onKeyPress={onKeyPressHandler}
-               error={!!error}
-               label="Title"
-                helperText={error}/>
+                   value={newTaskTitle}
+                   onChange={onNewTitleChangeHandler}
+                   onKeyPress={onKeyPressHandler}
+                   error={!!error}
+                   label="Title"
+                   helperText={error}/>
         <IconButton color="primary" onClick={addTask}>
             <AddBox />
         </IconButton>
     </div>
-}
+})

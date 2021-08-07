@@ -25,9 +25,7 @@ export type ChangeTodolistFilterActionType = {
     id: string
     filter: FilterValuesType
 }
-/*
-export const todolistId1 = v1();
-export const todolistId2 = v1();*/
+
 let initialState: TodolistType[] = [
 ]
 export const todolistsReducer = (state: TodolistType[] = initialState, action: ActionsType): TodolistType[] => {
