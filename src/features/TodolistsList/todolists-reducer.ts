@@ -15,7 +15,7 @@ export const todolistsReducer = (state: Array<TodolistDomainType> = initialState
         case 'CHANGE-TODOLIST-FILTER':
             return state.map(tl => tl.id === action.id ? {...tl, filter: action.filter} : tl)
         case 'SET-TODOLISTS':
-            return action.todolists.map(tl => ({...tl, filter: 'all', entityStatus: "idle"}))
+            return action.todolists.map(tl => ({...tl, filter: 'all', entityStatus: "idle" }))
         default:
             return state
     }
