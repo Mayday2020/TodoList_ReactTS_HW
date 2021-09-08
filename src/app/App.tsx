@@ -5,9 +5,12 @@ import {Menu} from '@material-ui/icons'
 import {TodolistsList} from '../features/TodolistsList/TodolistsList'
 import LinearProgress from "@material-ui/core/LinearProgress";
 import {ErrorSnackbar} from "../components/ErrorSnackBar/ErrorSnackBar";
+import {useSelector} from "react-redux";
+import {AppRootStateType} from "./store";
+import {ResponseAppStatus} from "./app-reducer";
 
 function App() {
-
+    const status = useSelector<AppRootStateType, ResponseAppStatus>(state => state.app.status)
     return (
         <div className="App">
             <ErrorSnackbar />
@@ -23,7 +26,7 @@ function App() {
                 </Toolbar>
 
             </AppBar>
-            {{/*status === 'loading'*/} && <LinearProgress color="secondary"/>}
+            {status === 'loading' && <LinearProgress />}
             <Container fixed>
                 <TodolistsList/>
             </Container>

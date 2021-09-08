@@ -5,8 +5,8 @@ type InitialStateType = {
     error: string | null
 }
 const initialState = {
-    status: 'idle' as ResponseAppStatus,
-    error: 'Это какая-то ошибка! Вы не того взяли...'
+    status: 'loading' as ResponseAppStatus,
+    error: null
 }
 export const appReducer = (state: InitialStateType = initialState, action: ActionsType): InitialStateType => {
     switch (action.type) {
@@ -18,5 +18,15 @@ export const appReducer = (state: InitialStateType = initialState, action: Actio
             return state
     }
 }
+export type SetErrorActionType = ReturnType<typeof setErrorAC>
+export type SetStatusActionType = ReturnType<typeof setStatusAC>
 
-type ActionsType = any
+type ActionsType =  SetErrorActionType |
+                    SetStatusActionType
+
+export const setErrorAC = (error: string | null) => {
+    return {type: 'APP/SET-ERROR', error} as const
+}
+export const setStatusAC = (status: ResponseAppStatus) => {
+    return {type: 'APP/SET-STATUS', status} as const
+}
