@@ -11,7 +11,6 @@ import {fetchTasksTC} from '../tasks-reducer'
 
 type PropsType = {
     todolist: TodolistDomainType
-
     tasks: Array<TaskType>
     changeFilter: (value: FilterValuesType, todolistId: string) => void
     addTask: (title: string, todolistId: string) => void
@@ -20,14 +19,17 @@ type PropsType = {
     removeTask: (taskId: string, todolistId: string) => void
     removeTodolist: (id: string) => void
     changeTodolistTitle: (id: string, newTitle: string) => void
-
+    demo?: boolean
 }
 
-export const Todolist = React.memo(function (props: PropsType) {
+export const Todolist = React.memo(function ({demo = false, ...props}: PropsType) {
     console.log('Todolist called')
 
     const dispatch = useDispatch()
     useEffect(() => {
+        if (demo) {
+            return
+        }
         const thunk = fetchTasksTC(props.todolist.id)
         dispatch(thunk)
     }, [])
@@ -56,6 +58,7 @@ export const Todolist = React.memo(function (props: PropsType) {
     if (props.todolist.filter === 'completed') {
         tasksForTodolist = props.tasks.filter(t => t.status === TaskStatuses.Completed)
     }
+
     return <div>
         <h3><EditableSpan value={props.todolist.title} onChange={changeTodolistTitle}/>
             <IconButton onClick={removeTodolist} disabled={props.todolist.entityStatus === 'loading'}>
